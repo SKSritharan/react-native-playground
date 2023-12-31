@@ -1,7 +1,7 @@
 export default class Expense {
-  constructor(id, title, amount, date) {
+  constructor(id, description, amount, date) {
     this.id = id;
-    this.title = title;
+    this.description = description;
     this.amount = amount;
     this.date = date;
   }
