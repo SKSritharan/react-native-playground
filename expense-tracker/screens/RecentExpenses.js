@@ -18,11 +18,11 @@ export default function RecentExpenses() {
       setIsFetching(true);
       try {
         const expenses = await fetchExpenses();
+        expensesCtx.setExpenses(expenses);
       } catch (error) {
         setError("Couldn't fetch expenses!");
       }
       setIsFetching(false);
-      expensesCtx.setExpenses(expenses);
     }
 
     getExpenses();
@@ -31,9 +31,9 @@ export default function RecentExpenses() {
   if (isFetching) {
     return <LoadingOverlay />;
   }
-  
+
   if (error && !isFetching) {
-    return <ErrorOverlay message={error} onConfirm={() => setError(null)} />;
+    return <ErrorOverlay message={error} />;
   }
 
   const recentExpenses = expensesCtx.expenses.filter((expense) => {
