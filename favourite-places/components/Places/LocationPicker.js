@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import {
-  useNavigation,
-  useRoute,
-  useIsFocused,
-} from "@react-navigation/native";
 import { Alert, View, StyleSheet, Image, Text } from "react-native";
 import {
   getCurrentPositionAsync,
   useForegroundPermissions,
   PermissionStatus,
 } from "expo-location";
+import {
+  useNavigation,
+  useRoute,
+  useIsFocused,
+} from "@react-navigation/native";
 
 import { Colors } from "../../constants/colors";
 import OutlinedButton from "../UI/OutlinedButton";

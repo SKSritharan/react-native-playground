@@ -1,19 +1,28 @@
-import MapView, { Marker } from "react-native-maps";
-import { Alert, StyleSheet } from "react-native";
 import { useCallback, useLayoutEffect, useState } from "react";
+import { Alert, StyleSheet } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
 import IconButton from "../components/UI/IconButton";
 
-export default function Map({ navigation }) {
-  const [selectedLocation, setSelectedLocation] = useState();
+function Map({ navigation, route }) {
+  const initialLocation = route.params && {
+    lat: route.params.initialLat,
+    lng: route.params.initialLng,
+  };
+
+  const [selectedLocation, setSelectedLocation] = useState(initialLocation);
+
   const region = {
-    latitude: 37.78,
-    longitude: -122.43,
+    latitude: initialLocation ? initialLocation.lat : 37.78,
+    longitude: initialLocation ? initialLocation.lng : -122.43,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
 
   function selectLocationHandler(event) {
+    if (initialLocation) {
+      return;
+    }
     const lat = event.nativeEvent.coordinate.latitude;
     const lng = event.nativeEvent.coordinate.longitude;
 
@@ -28,6 +37,7 @@ export default function Map({ navigation }) {
       );
       return;
     }
+
     navigation.navigate("AddPlace", {
       pickedLat: selectedLocation.lat,
       pickedLng: selectedLocation.lng,
@@ -35,6 +45,9 @@ export default function Map({ navigation }) {
   }, [navigation, selectedLocation]);
 
   useLayoutEffect(() => {
+    if (initialLocation) {
+      return;
+    }
     navigation.setOptions({
       headerRight: ({ tintColor }) => (
         <IconButton
@@ -45,12 +58,12 @@ export default function Map({ navigation }) {
         />
       ),
     });
-  }, [navigation, savePickedLocationHandler]);
+  }, [navigation, savePickedLocationHandler, initialLocation]);
 
   return (
     <MapView
+      style={styles.map}
       initialRegion={region}
-      style={styles.screen}
       onPress={selectLocationHandler}
     >
       {selectedLocation && (
@@ -66,8 +79,10 @@ export default function Map({ navigation }) {
   );
 }
 
+export default Map;
+
 const styles = StyleSheet.create({
-  screen: {
+  map: {
     flex: 1,
   },
 });
