@@ -2,11 +2,22 @@ import axios from "axios";
 
 const BASE_URL = "https://api.quotable.io";
 
-export default async function randomQuote() {
+async function quotableApi(endpoint, params = {}) {
+  const options = {
+    method: "GET",
+    url: BASE_URL + endpoint,
+    params: params,
+  };
+
   try {
-    const response = await axios.get(`${BASE_URL}/random`);
-    console.log(response.data);
+    const response = await axios.request(options);
+    return response.data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return {};
   }
+}
+
+export async function getRandomQuote() {
+  return await quotableApi("/random");
 }
