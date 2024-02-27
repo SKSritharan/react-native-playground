@@ -23,6 +23,15 @@
     },
     "web": {
       "favicon": "./app/assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./local/app/assets/icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ]
   }
 }
